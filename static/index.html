@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Mongo Art Post Article</title>
+    <link rel="stylesheet" type="text/css" href="mdb3.css">
+</head>
+<body>
+<h1>New Image Upload Form:</h1>
+<form method="post" enctype="multipart/form-data" action="/articles">
+    <label for="author">Author: </label>
+    <input type="text" name="author"/>
+    <br/>
+    <label for="content">Content: </label>
+    <br/>
+    <textarea rows="5" cols="100" name="content"></textarea>
+    <br/>
+    <label for="image">Image (optional): </label>
+    <input type="file" name="image"/>
+    <br/>
+    <input type="submit"/>
+</form>
+<p>Code taken from <a href="http://coding.paulandkana.com/?p=12">Paul Robert's Blog,</a> and then heavily edited for Express
+version 4.x so it will work. Not all the routes in either app.js or Article.js work correctly.</p>
+</body>
+</html>
