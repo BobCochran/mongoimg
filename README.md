@@ -75,6 +75,9 @@ and npm will read the package.json file and install all the dependencies listed 
 
 ## API Reference
 
+The presentation slides given at my talk to the group are in the presentation_materials folder. Reading the
+deck is a good first step in working with the code.
+
 To understand how the scripts work, first read app.js. Then read Article2.js.
 
 MongoDB, the company, supports an API driver for Node.js. It is called 'mongodb'. Documentation is available on the
@@ -83,7 +86,15 @@ web:
 http://docs.mongodb.org/ecosystem/drivers/node-js/
 
 What I am doing is an attempt to build a "MongoDB/Express.js/Angular.js/Node.js" web application. This is called the
-"MEAN stack" for short. One of the best books I am reading on the subject is "Getting MEAN" by Simon Holmes. It is
+"MEAN stack" for short. So far, I am not using Angular.js. I might do so in the future. For now I am just using
+Node, MongoDB (with the mongodb driver), and Express.js. At this writing, Express.js us having very rapid releases,
+so it is a good idea to keep an eye on the Express website.
+
+You will frequently consult the Node.js API documentation:
+
+http://nodejs.org/
+
+Want to read more? One of the best books I am reading on the subject is "Getting MEAN" by Simon Holmes. It is
 currently available from Manning Publications as a "Manning Early Access Program" book.
 
 
