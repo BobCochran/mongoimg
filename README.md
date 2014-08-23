@@ -36,6 +36,12 @@ is broken: images do not upload to MongoDB correctly. This is likely due to poor
 offer suggestions for improving it, please feel free to email me. Or, go straight ahead and do a pull request with
 corrected code.
 
+This script tries to find the fn_list.txt file by extracting the user's $HOME environment variable from
+the environment. It saves this information to a variable named my_user.  This is done with process.env['HOME'].
+You may need to edit that process.env line to have it extract the correct home directory value.
+Likewise, fs.createReadStream searches for the filename to read to using path information from my_user.
+You may need to edit the method call to fs.createReadStream to adjust the path being searched.
+
 You can easily change the target database collection in the script.
 
 ##Displaying Images On A Web Page

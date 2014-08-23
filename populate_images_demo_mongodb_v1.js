@@ -1,6 +1,6 @@
 /*************************************************************************
  * NODE.JS SCRIPT TO POPULATE A MONGODB 'demoimages' collection of images*
- * 2014-08-17                                                            *
+ * 2014-08-23                                                         *
  *                                                                       *
  * To start the script, use this command line in a shell window:         *
  * node populate_images_demo_mongodb_v1.js startline endline             *
@@ -91,6 +91,7 @@ var actLines = 0        // the actual number of text lines that readLines has fo
 var webRows = 0         // count of web page row numbers, starting from 1
 var array_lines = 0     // the number of array iterations we need
 var the_image           // content of image read by fs.ReadStream
+var my_user = process.env['HOME']  //Mac OS X: the user's Home directory
 
 var MongoClient = require('mongodb').MongoClient
     , format = require('util').format;
@@ -138,7 +139,7 @@ for(i = 0; i < array_lines; i++) {
     }
 }
 
-var input = fs.createReadStream('/Users/mongod/Downloads/mongoimg/fn_list.txt');
+var input = fs.createReadStream(my_user + '/Downloads/mongoimg/fn_list.txt');
 
 readLines(input, func);
 get_credits()
@@ -246,7 +247,7 @@ function get_credits() {
  */
 function get_photo_info(fname,idx) {
 
-    stream = fs.createReadStream('/Users/mongod/Downloads/mongoimg/mongodb_presentation_images/' + fname, { flag: 'r' })
+    stream = fs.createReadStream(my_user + '/Downloads/mongoimg/mongodb_presentation_images/' + fname, { flag: 'r' })
 
     stream.on("error", function(err) {
 
@@ -278,7 +279,13 @@ function get_photo_info(fname,idx) {
     })
 
     stream.on("end", function() {
+        //dump the streamed-in image into the console so we can see the
+        //hex
+        var my_image_length = the_image.length;
+        var my_image_start = the_image.slice(0,256)
 
+        console.log('First 256 bytes of image\n' + my_image_start)
+        console.log('Length of this image\n' + my_image_length)
         im_array[idx][2] = the_image
     })
 }
