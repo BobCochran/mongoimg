@@ -1,7 +1,7 @@
 {
   "name": "mongoimg",
   "description": "Demonstration application of storing and retrieving images in MongoDB",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "private": true,
   "dependencies": {
     "express": "*",

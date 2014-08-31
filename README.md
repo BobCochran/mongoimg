@@ -6,6 +6,26 @@ MD Edition" on August 20, 2014.
 
 ## Code Example
 
+### Required software
+
+Recent version of Node.js either compiled from source or installed as a binary distribution
+Recent version of MongoDB
+Certain node modules -- see below for list
+Recent web browser version, such as Firefox v. 31+ or Chrome v34+
+Unix/Linux based operating system such as Mac OS X
+This code was tested on OS X 10.9.4, Node.js v0.10.31, and MongoDB database versions 2.6.3 and 2.6.4.
+
+### Node Modules
+
+The following dependency modules are in the package.json file and must be installed to run
+the sample scripts:
+
+express
+mongodb
+multiparty
+
+### Running the example scripts
+
 To add images to MongoDB using a method based on synchronous reading of .jpg image files, start app.js from any
 terminal window:
 
@@ -22,7 +42,8 @@ You can add images in this way.
 Article2.js acts as a data access object and you can easily change the database and collection names.
 
 To add 1 to n images to a database collection, first edit the Filename column in the file fn_list.txt. Add the
-filenames you wish to upload as a batch.
+filenames you wish to upload as a batch. Each line of this list must be a tab-separated values ("TSV") line.
+Be sure to edit using a text editor which embeds true tab characters "x'09') instead of spaces (x'20').
 
 Then run 'populate_images_demo_mongodb_v1.js' in a terminal window like this:
 
@@ -31,12 +52,20 @@ node populate_images_demo_mongodb_v1.js 1 2
 This tells the script to add the first and second images listed in the file fn_list.txt. The arguments '1 2'
 are the line numbers of the file names you want to upload, excluding the heading.
 
-node populate_images_demo_mongodb_v1.js uses Node's fs.createReadStream() API and in this version, the script
+The script `populate_images_demo_mongodb_v1.js` uses Node's fs.createReadStream() API and in this version, the script
 is broken: images do not upload to MongoDB correctly. This is likely due to poor implementation by me. If you can
 offer suggestions for improving it, please feel free to email me. Or, go straight ahead and do a pull request with
 corrected code.
 
-This script tries to find the fn_list.txt file by extracting the user's $HOME environment variable from
+The script `populate_images_demo_mongodb_v2.js` attempts to use Node Buffer objects instead of String
+variables to hold the content of the binary stream. However, ReadableStream objects which contain binary data
+still appear to be broken in this script.
+
+The script `populate_images_demo_mongodb_v3.js` dumps Node Buffers and ReadableStreams in favor of a simple but
+synchronous readFileSync action. The API documentation for readFileSync indicates that if you don't specify
+any file encoding options, it returns a buffer by default.
+
+All the above 3 scripts try to find the fn_list.txt file by extracting the user's $HOME environment variable from
 the environment. It saves this information to a variable named my_user.  This is done with process.env['HOME'].
 You may need to edit that process.env line to have it extract the correct home directory value.
 Likewise, fs.createReadStream searches for the filename to read to using path information from my_user.

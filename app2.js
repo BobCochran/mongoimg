@@ -55,13 +55,12 @@ app.get("/articles", function (req, res) {
             for (var i = 0; i < results.length; i++) {
                 res.write('<p>File name\: ' + results[i].fn + '<br>')
                 res.write('<img src="data:image/jpeg;base64,')
-                res.write(results[i].image + '"/>')
-     //           res.write(results[i].image.toString('base64') + '"/>')
+                res.write(results[i].image.toString('base64') + '"/>')
 
             }
 
-            res.end("<p>This code accesses images stored by the script named populate_images_demo_mongodb_v1.js " +
-                "and the method of storing the images is probably flawed.</p></body></html>")
+            res.end("<p>This code accesses images stored by the script named populate_images_demo_mongodb_v3.js " +
+                "and the method of storing the images appears to work. It is based on using the Node api readFileSync.</p></body></html>")
 
             // Send the web page to the browser.
 
