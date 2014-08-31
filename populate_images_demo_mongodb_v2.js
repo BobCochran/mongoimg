@@ -250,7 +250,9 @@ function get_credits() {
  */
 function get_photo_info(fname,idx) {
 
-    var the_image = ''
+    var the_image = ""
+
+
     stream = fs.createReadStream(my_user + '/Downloads/mongoimg/mongodb_presentation_images/' + fname, { flags: 'r', encoding: 'ascii' })
 
     stream.on("error", function(err) {
@@ -278,6 +280,7 @@ function get_photo_info(fname,idx) {
     stream.on("data", function(data1) {
 
         the_image += data1
+
         console.log("Got %d bytes of data ", data1.length)
 
 
@@ -287,12 +290,16 @@ function get_photo_info(fname,idx) {
         //dump the streamed-in image into the console so we can see the
         //hex
         var my_image_length = the_image.length;
-        var my_image_start = the_image.slice(0,256)
-
-        fs.writeFileSync(my_user + '/Downloads/mongoimg/mongodb_presentation_images/' + fname + '_chunk', my_image_start);
+        //var my_image_start = the_image.slice(0,256)
 
         console.log('Length of this image\n' + my_image_length)
-        im_array[idx][2] = the_image
+        var base64 = new Buffer(the_image, 'binary').toString('base64')
+
+        im_array[idx][2] = base64
+
+
+        //fs.writeFileSync(my_user + '/Downloads/mongoimg/mongodb_presentation_images/' + fname + '_chunk', buf2.toString('ascii',0,25));
+
     })
 }
 

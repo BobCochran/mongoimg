@@ -55,7 +55,8 @@ app.get("/articles", function (req, res) {
             for (var i = 0; i < results.length; i++) {
                 res.write('<p>File name\: ' + results[i].fn + '<br>')
                 res.write('<img src="data:image/jpeg;base64,')
-                res.write(results[i].image.toString('base64') + '"/>')
+                res.write(results[i].image + '"/>')
+     //           res.write(results[i].image.toString('base64') + '"/>')
 
             }
 
