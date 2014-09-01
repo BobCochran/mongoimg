@@ -63,7 +63,7 @@ variables to hold the content of the binary stream. However, ReadableStream obje
 still appear to be broken in this script.
 
 The script `populate_images_demo_mongodb_v3.js` dumps Node Buffers and ReadableStreams in favor of a simple but
-synchronous readFileSync action. The API documentation for readFileSync indicates that if you don't specify
+synchronous readFileSync actions. The API documentation for readFileSync indicates that if you don't specify
 any file encoding options, it returns a buffer by default.
 
 All the above 3 scripts try to find the fn_list.txt file by extracting the user's $HOME environment variable from
@@ -73,6 +73,17 @@ Likewise, fs.createReadStream searches for the filename to read to using path in
 You may need to edit the method call to fs.createReadStream to adjust the path being searched.
 
 You can easily change the target database collection in the script.
+
+### Database and Collection names for this coding example
+
+Example scripts access different MongoDB databases and collections. You can easily edit them to
+suit names that you prefer.
+
+| Script Name(s) | Database Name | Collections |
+| :--------------| :------------:| :----------:|
+| app.js | roberts | articles |
+| app2.js | images | demoimages |
+| app3.js | images | demoimages |
 
 ##Displaying Images On A Web Page
 
@@ -97,7 +108,7 @@ http://localhost:3000/articles
 File app3.js attempts to resize stored images on-the-fly using the node.js module "gm" by Aaron Heckman.
 The app3.js code may well be broken when you try it. At this time, the code will correctly retrieve and
 display a single image if you use the route `articles/:id` where :id is the filename of the image you
-wish to extract. 
+wish to extract.
 
 ## Motivation
 
