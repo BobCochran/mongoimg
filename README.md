@@ -85,7 +85,7 @@ suit names that you prefer.
 | app2.js | images | demoimages | _id, fn, image |
 | app3.js | images | demoimages | _id, fn, image |
 
-The _id fields are all standard MongoDB generated _id fields. In the articles collection, the `img`
+The `_id` fields are all standard MongoDB generated `_id` fields. In the articles collection, the `img`
 field contains the actual image. In the demoimages collection, the `image` field contains the
 actual image.
 
