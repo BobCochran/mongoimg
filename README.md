@@ -21,6 +21,7 @@ The following dependency modules are in the package.json file and must be instal
 the sample scripts:
 
 express
+gm
 mongodb
 multiparty
 
@@ -37,7 +38,7 @@ In a web browser, bring up the content upload form:
 
 http://localhost:3000/
 
-You can add images in this way.
+You can add images by browsing to them within the form, and adding comments and an author name.
 
 Article2.js acts as a data access object and you can easily change the database and collection names.
 
@@ -90,6 +91,13 @@ node app2.js
 then in your browser go to
 
 http://localhost:3000/articles
+
+## Attempt at on-the-fly image resizing
+
+File app3.js attempts to resize stored images on-the-fly using the node.js module "gm" by Aaron Heckman.
+The app3.js code may well be broken when you try it. At this time, the code will correctly retrieve and
+display a single image if you use the route `articles/:id` where :id is the filename of the image you
+wish to extract. 
 
 ## Motivation
 

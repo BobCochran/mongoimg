@@ -1,9 +1,8 @@
 /* This code was taken from Paul Robert's blog entry at
  * http://coding.paulandkana.com/p=12
  *
- * Heavily edited so it can work in Express version 4.
- * Utilizes node-multiparty to parse form data.
- *
+ * This code tries to resize images obtained from the
+ * database on the fly and then display them on a web page.
  *
  * Changes were made by Robert Cochran. Bob can be emailed on
  * r2cochran2@gmail.com.
@@ -15,6 +14,7 @@ var express = require('express'),
     multiparty = require('multiparty'),
     os = require('os'),
     fs = require('fs'),
+    gm = require('gm'),
     ourcss2 = undefined,
     Article = require('./Article3');   // I encapsulated my data objects in a dedicated class
 
@@ -115,33 +115,51 @@ app.get("/resized", function (req, res) {
     });
 });
 
-// get the JSON representation of just one article
+// Display just one image
+
 app.get("/articles/:id", function (req, res) {
-    Article.findById(req.params.id, function (error, result) {
+
+    //Step 1: read in the css that applies
+
+    fs.readFile(__dirname + '/static/mdb3.css', function (err, ourcss) {
+        if (err) console.log(err);
+
+        ourcss2 = ourcss
+    })
+    Article.findById(req.params.id, function (error, results) {
         if (error) {
-            res.json(error, 400);
-        } else if (!result) {
-            res.send(404);
+            res.status(400).json('A database related error has happened. Perhaps the server is down?' + '\n' + error);
+        } else if (!results) {
+            res.status(404).json('The record set was not found. Very strange. Perhaps the server is down?' + '\n');
         } else {
-            result.image = undefined;
-            res.json(result);
+
+            /* Write the headers, document head, and required tags including the h1 */
+
+            res.writeHead(200, {'Content-Type': 'text/html'})
+            res.write('<!DOCTYPE html><html><head><title>MongoDB Demo Images</title>')
+            res.write('<style media="screen" type="text/css">' + ourcss2 + '</style></head>')
+            res.write('<body><h1>MongoDB Demo Images</h1>')
+
+            /* Process the rest of the page using a for loop to place 1 through n documents of
+             * database content in the remainder of the web page.
+             */
+            for (var i = 0; i < results.length; i++) {
+                res.write('<p>File name\: ' + results[i].fn + '<br>')
+                res.write('<img src="data:image/jpeg;base64,')
+                res.write(results[i].image.toString('base64') + '"/>')
+
+            }
+
+            res.end("<p>This code accesses images stored by the script named populate_images_demo_mongodb_v3.js " +
+                "and the method of storing the images appears to work. It is based on using the Node api readFileSync. " +
+                "Query logic in Article3.js returns images to the Article.findAll function sorted in ascending " +
+                "filename order.</p></body></html>")
+
+            // Send the web page to the browser.
         }
     });
 });
 
-// get the image of a particular article
-app.get("/articles/:id/image", function (req, res) {
-    Article.findById(req.params.id, function (error, result) {
-        if (error) {
-            res.json(error, 400);
-        } else if (!result || !result.imageType || !result.image || !result.image.buffer || !result.image.buffer.length) {
-            res.send(404);
-        } else {
-            res.contentType(result.imageType);
-            res.end(result.image.buffer, "binary");
-        }
-    });
-});
 
 // save/update a new article
 app.post("/articles", function (req, res, next) {

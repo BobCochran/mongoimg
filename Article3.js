@@ -70,13 +70,24 @@ exports.findAll = function (callback) {
     };
 
     /*
-     * The code below (exports.findById) does not work for
+     * The code below (exports.findById) is being tested for
      * the demoimages collection of the images database.
      *
      */
-exports.findById = function (id, callback) {
-    db.collection("demoimages", function (error, collection) {
-        collection.findOne({_id: new ObjectID(id)}, callback);
+exports.findById = function (filename, callback) {
+    console.log("The filename value that was passed is " + filename + "\n")
+    db.collection("demoimages", function (err, collection) {
+        collection.find( { "fn" : filename }, { "_id" : 0 }, {} )
+            .toArray(function (err, docs) {
+            if (err) {
+                console.log("A database error occurred in findById\n" + err)
+                return callback(err, null)
+            }
+                else {
+                console.log(docs[0].fn)
+                callback(null, docs)
+            }
+        })
     });
 };
 
