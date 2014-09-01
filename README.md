@@ -79,11 +79,11 @@ You can easily change the target database collection in the script.
 Example scripts access different MongoDB databases and collections. You can easily edit them to
 suit names that you prefer.
 
-| Script Name(s) | Database Name | Collections |
-| :--------------| :------------:| :----------:|
-| app.js | roberts | articles |
-| app2.js | images | demoimages |
-| app3.js | images | demoimages |
+| Script Name(s) | Database Name | Collections | Fields |
+| :--------------| :------------:| :----------:| :-----:|
+| app.js | roberts | articles | idt, img, author |
+| app2.js | images | demoimages | fn, image |
+| app3.js | images | demoimages | fn, image |
 
 ##Displaying Images On A Web Page
 
