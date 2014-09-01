@@ -81,9 +81,13 @@ suit names that you prefer.
 
 | Script Name(s) | Database Name | Collections | Fields |
 | :--------------| :------------:| :----------:| :-----:|
-| app.js | roberts | articles | idt, img, author |
-| app2.js | images | demoimages | fn, image |
-| app3.js | images | demoimages | fn, image |
+| app.js | roberts | articles | _id, idt, img, author, content, im_typ, im_len, im_name |
+| app2.js | images | demoimages | _id, fn, image |
+| app3.js | images | demoimages | _id, fn, image |
+
+The _id fields are all standard MongoDB generated _id fields. In the articles collection, the `img`
+field contains the actual image. In the demoimages collection, the `image` field contains the
+actual image.
 
 ##Displaying Images On A Web Page
 
