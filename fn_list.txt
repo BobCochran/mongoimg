@@ -7,3 +7,5 @@ street_flower	10130	1	street	0130street
 resized_img1778	10130	1	street	0130street
 resized_img1779	10130	1	street	0130street
 resized_img1780	10130	1	street	0130street
+IMG_1764_resized	10130	1	street	0130street
+IMG_1785_resized	10130	1	street	0130street
