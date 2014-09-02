@@ -115,9 +115,11 @@ app.get("/resized", function (req, res) {
     });
 });
 
-// Display just one image
+// Display just one image. See if we can resize the image on the fly using the 'gm' utility.
+
 
 app.get("/articles/:id", function (req, res) {
+
 
     //Step 1: read in the css that applies
 
@@ -133,6 +135,31 @@ app.get("/articles/:id", function (req, res) {
             res.status(404).json('The record set was not found. Very strange. Perhaps the server is down?' + '\n');
         } else {
 
+            /* I think we need to create a buffer which contains a copy of the image
+             * in order for the gm utility to resize it. I guess the image is being returned
+             * as a binary object.
+             */
+
+            var buf1 = new Buffer(results[0].image.toString('base64'), "base64")
+            var fpath = __dirname + '/mongodb_presentation_images' + '/' + results[0].fn + '.JPG'
+            console.log(fpath)
+            gm(buf1, fpath)
+                .options({imageMagick: true})
+                .resize(600)
+                .toBuffer('JPG', function(err, buffer1) {
+                    if (err) {
+
+                        return handle(err)
+                    }
+
+                    if (!err) {
+
+                        console.log("image successfully resized by gm")
+                        var buffer2 = new Buffer(buffer1.copy(buffer2))
+
+                    }
+                })
+
             /* Write the headers, document head, and required tags including the h1 */
 
             res.writeHead(200, {'Content-Type': 'text/html'})
@@ -144,9 +171,13 @@ app.get("/articles/:id", function (req, res) {
              * database content in the remainder of the web page.
              */
             for (var i = 0; i < results.length; i++) {
-                res.write('<p>File name\: ' + results[i].fn + '<br>')
+                res.write('<p>File name\: ' + results[i].fn + '</p><br>')
                 res.write('<img src="data:image/jpeg;base64,')
                 res.write(results[i].image.toString('base64') + '"/>')
+                res.write('<br><p>And the resized image of the above is </p>')
+                res.write('<img src="data:image/jpeg;base64,')
+                res.write(buffer2 + '"/>')
+
 
             }
 
