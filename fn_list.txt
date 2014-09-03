@@ -8,4 +8,11 @@ resized_img1778	10130	1	street	0130street
 resized_img1779	10130	1	street	0130street
 resized_img1780	10130	1	street	0130street
 IMG_1764_resized	10130	1	street	0130street
-IMG_1785_resized	10130	1	street	0130street
+IMG_1785_resized_550	10130	1	street	0130street
+IMG_1785_resized_650	10130	1	street	0130street
+IMG_1785_resized_850	10130	1	street	0130street
+IMG_1786_resized_650	10130	1	street	0130street
+IMG_1786_resized_750	10130	1	street	0130street
+IMG_1842	10130	1	street	0130street
+IMG_1843	10130	1	street	0130street
+IMG_1866	10130	1	street	0130street
