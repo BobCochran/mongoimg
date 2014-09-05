@@ -8,12 +8,12 @@ MD Edition" on August 20, 2014.
 
 ### Required software
 
-Recent version of Node.js either compiled from source or installed as a binary distribution
-Recent version of MongoDB
-Certain node modules -- see below for list
-Recent web browser version, such as Firefox v. 31+ or Chrome v34+
-Unix/Linux based operating system such as Mac OS X
-This code was tested on OS X 10.9.4, Node.js v0.10.31, and MongoDB database versions 2.6.3 and 2.6.4.
+- Recent version of Node.js either compiled from source or installed as a binary distribution
+- Recent version of MongoDB database server
+- Certain node modules -- see below for list
+- Recent web browser version, such as Firefox v. 31+ or Chrome v34+
+- Unix/Linux based operating system such as Mac OS X
+- This code was tested on OS X 10.9.4, Node.js v0.10.31, and MongoDB database versions 2.6.3 and 2.6.4.
 
 ### Node Modules
 
