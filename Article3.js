@@ -84,8 +84,25 @@ exports.findById = function (filename, callback) {
                 return callback(err, null)
             }
                 else {
-                console.log(docs[0].fn)
-                callback(null, docs)
+
+                // Okay, so we found the image in demoimages. Let us see
+                // if a smaller resolution image is also in 'd750'.
+                db.collection("d750", function (err,collection) {
+                    collection.find( { "fn" : { $regex : filename + '*' } }, {"_id" : 0}, { sort: { "fn" : 1 } } )
+                        .toArray(function (err, docs2) {
+                            if (err) {
+                                return callback(err, null)
+                            }
+                            else {
+                                console.log('Image queried from deomoimages collection: ' + docs[0].fn)
+                                console.log('Image queried from d750 collection: ' + docs2[0].fn)
+                                console.log('Going to the callback now! ')
+                                callback(null, docs, docs2)
+                            }
+                        })
+                })
+                //console.log(docs[0].fn)
+                //callback(null, docs, docs2)
             }
         })
     });
