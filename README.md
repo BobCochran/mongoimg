@@ -20,10 +20,10 @@ This code was tested on OS X 10.9.4, Node.js v0.10.31, and MongoDB database vers
 The following dependency modules are in the package.json file and must be installed to run
 the sample scripts:
 
-express
-gm
-mongodb
-multiparty
+* express
+* gm
+* mongodb
+* multiparty
 
 ### Running the example scripts
 
