@@ -84,10 +84,11 @@ suit names that you prefer.
 | app.js | roberts | articles | _id, idt, img, author, content, im_typ, im_len, im_name |
 | app2.js | images | demoimages | _id, fn, image |
 | app3.js | images | demoimages | _id, fn, image |
+| app3.js | images | d750 | _id, fn, image |
 
 The `_id` fields are all standard MongoDB generated `_id` fields. In the articles collection, the `img`
 field contains the actual image. In the demoimages collection, the `image` field contains the
-actual image.
+actual image. In the d750 collection, the `image` field contains the actual image.
 
 ##Displaying Images On A Web Page
 
@@ -109,10 +110,20 @@ http://localhost:3000/articles
 
 ## Attempt at on-the-fly image resizing
 
-File app3.js attempts to resize stored images on-the-fly using the node.js module "gm" by Aaron Heckman.
-The app3.js code may well be broken when you try it. At this time, the code will correctly retrieve and
-display a single image if you use the route `articles/:id` where :id is the filename of the image you
-wish to extract.
+File app3.js will correctly retrieve and display two resolution sizes of the same image if you use the route
+`articles/:id` where :id is the filename of the image you wish to extract. First, the `demoimages` collection
+will be queried for the image. Then, the `d750` collection will be queried for the same image, but in 750px
+resolution. The route /articles/:id will then format the two images on the web page and send it back as an
+http response to the browser.
+
+File `resize_images_with_gm_and_add_to_mongodb.js` is a batch script that will extract an image filename from
+fn_list.txt, then readFileSync() that image, then store resize the image to 750px using the 'Graphics Magick' or
+gm utility. The constructor call provides a buffer object to gm, and requests resizing of the image and
+putting the resized image in the new buffer. In this way, it is possible to resize the same image on-the-fly,
+creating new output buffer objects in any desired resolution.
+
+The script writes the resized image to the 'd750' collection, and gives it an 'fn' field indicating the
+resized resolution.
 
 ## Motivation
 
