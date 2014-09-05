@@ -128,39 +128,14 @@ app.get("/articles/:id", function (req, res) {
 
         ourcss2 = ourcss
     })
-    Article.findById(req.params.id, function (error, results) {
+    Article.findById(req.params.id, function (error, results, results2) {
         if (error) {
             res.status(400).json('A database related error has happened. Perhaps the server is down?' + '\n' + error);
         } else if (!results) {
             res.status(404).json('The record set was not found. Very strange. Perhaps the server is down?' + '\n');
         } else {
 
-            /* I think we need to create a buffer which contains a copy of the image
-             * in order for the gm utility to resize it. I guess the image is being returned
-             * as a binary object.
-             */
-
-            var buf1 = new Buffer(results[0].image.toString('base64'), "base64")
-            var fpath = __dirname + '/mongodb_presentation_images' + '/' + results[0].fn + '.JPG'
-            console.log(fpath)
-            gm(buf1, fpath)
-                .options({imageMagick: true})
-                .resize(600)
-                .toBuffer('JPG', function(err, buffer1) {
-                    if (err) {
-
-                        return handle(err)
-                    }
-
-                    if (!err) {
-
-                        console.log("image successfully resized by gm")
-                        var buffer2 = new Buffer(buffer1.copy(buffer2))
-
-                    }
-                })
-
-            /* Write the headers, document head, and required tags including the h1 */
+             /* Write the headers, document head, and required tags including the h1 */
 
             res.writeHead(200, {'Content-Type': 'text/html'})
             res.write('<!DOCTYPE html><html><head><title>MongoDB Demo Images</title>')
@@ -174,9 +149,10 @@ app.get("/articles/:id", function (req, res) {
                 res.write('<p>File name\: ' + results[i].fn + '</p><br>')
                 res.write('<img src="data:image/jpeg;base64,')
                 res.write(results[i].image.toString('base64') + '"/>')
-                res.write('<br><p>And the resized image of the above is </p>')
+                res.write('<br><p>And the resized image of the above is taken from a different collection. ' +
+                    'The file name is ' + results2[i].fn + '</p><br>')
                 res.write('<img src="data:image/jpeg;base64,')
-                res.write(buffer2 + '"/>')
+                res.write(results2[i].image.toString('base64') + '"/>')
 
 
             }
