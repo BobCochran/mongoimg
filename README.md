@@ -108,22 +108,32 @@ then in your browser go to
 
 http://localhost:3000/articles
 
+The /articles route will pull every image that is in the demoimages collection and format them in ascending
+filename sequence on the web page.
+
+If you wish to see only a specific image, you can query for it by id with the route
+
+http://localhost:3000/articles/:id where :id is the name of the image you are interested in.
+
+For example, `http://localhost:3000/articles/IMG_1842`.
+
 ## Attempt at on-the-fly image resizing
 
 File app3.js will correctly retrieve and display two resolution sizes of the same image if you use the route
-`articles/:id` where :id is the filename of the image you wish to extract. First, the `demoimages` collection
+`/articles/:id` where :id is the filename of the image you wish to extract. First, the `demoimages` collection
 will be queried for the image. Then, the `d750` collection will be queried for the same image, but in 750px
 resolution. The route /articles/:id will then format the two images on the web page and send it back as an
 http response to the browser.
 
 File `resize_images_with_gm_and_add_to_mongodb.js` is a batch script that will extract an image filename from
-fn_list.txt, then readFileSync() that image, then store resize the image to 750px using the 'Graphics Magick' or
-gm utility. The constructor call provides a buffer object to gm, and requests resizing of the image and
-putting the resized image in the new buffer. In this way, it is possible to resize the same image on-the-fly,
-creating new output buffer objects in any desired resolution.
+fn_list.txt, then readFileSync() that image, then resize the image to 750px using the 'Graphics Magick' or
+gm utility. The constructor call provides a Buffer object to gm, and requests resizing of the image and
+putting the resized image in the new Buffer. In this way, it is possible to resize the same image on-the-fly,
+creating new output Buffer objects in any desired resolution. The native (high) resolution image is still
+saved to the `demoimages` collection.
 
 The script writes the resized image to the 'd750' collection, and gives it an 'fn' field indicating the
-resized resolution.
+resized resolution. For example, fn might contain a filename value of `IMG_1842_resized_750`.
 
 ## Motivation
 
