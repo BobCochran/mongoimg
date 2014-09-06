@@ -69,6 +69,63 @@ exports.findAll = function (callback) {
         });
     };
 
+//Query for all images in the d750 collection.
+
+exports.find750 = function (callback) {
+        db.collection("d750", function (err, collection) {
+            collection.find( {}, {"_id" : 0 }, { sort: { "fn" : 1 } } )
+                .toArray(function (err, docs) {
+                    if (err) {
+                        return callback(err, null)
+                    }
+                    else {
+                        docs.forEach(function (entry) {
+                            console.log(entry.fn)
+                        })
+                        callback(null, docs)
+                    }
+                });
+        });
+    };
+
+//Query for all images in the d650 collection.
+
+exports.find650 = function (callback) {
+        db.collection("d650", function (err, collection) {
+            collection.find( {}, {"_id" : 0 }, { sort: { "fn" : 1 } } )
+                .toArray(function (err, docs) {
+                    if (err) {
+                        return callback(err, null)
+                    }
+                    else {
+                        docs.forEach(function (entry) {
+                            console.log(entry.fn)
+                        })
+                        callback(null, docs)
+                    }
+                });
+        });
+    };
+
+//Query for all images in the d550 collection.
+
+exports.find550 = function (callback) {
+        db.collection("d550", function (err, collection) {
+            collection.find( {}, {"_id" : 0 }, { sort: { "fn" : 1 } } )
+                .toArray(function (err, docs) {
+                    if (err) {
+                        return callback(err, null)
+                    }
+                    else {
+                        docs.forEach(function (entry) {
+                            console.log(entry.fn)
+                        })
+                        callback(null, docs)
+                    }
+                });
+        });
+};
+
     /*
      * The code below (exports.findById) is being tested for
      * the demoimages collection of the images database.
