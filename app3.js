@@ -115,6 +115,146 @@ app.get("/resized", function (req, res) {
     });
 });
 
+// Display all the images in the 'd750' collection.
+
+app.get("/d750", function (req, res) {
+
+    //Step 1: read in the css that applies
+
+    fs.readFile(__dirname + '/static/mdb3.css', function (err, ourcss) {
+        if (err) console.log(err);
+
+        ourcss2 = ourcss
+    });
+    Article.find750(function (error, results) {
+        if (error) {
+            res.status(400).json('A database related error has happened. Perhaps the server is down?' + '\n' + error);
+
+        } else if (!results) {
+            res.status(404).json('The record set was not found. Very strange. Perhaps the server is down?' + '\n');
+        } else {
+            /* Write the headers, document head, and required tags including the h1 */
+
+            res.writeHead(200, {'Content-Type': 'text/html'})
+            res.write('<!DOCTYPE html><html><head><title>MongoDB Demo Images</title>')
+            res.write('<style media="screen" type="text/css">' + ourcss2 + '</style></head>')
+            res.write('<body><h1>MongoDB Demo Images</h1>')
+
+            /* Process the rest of the page using a for loop to place 1 through n documents of
+             * database content in the remainder of the web page.
+             */
+            for (var i = 0; i < results.length; i++) {
+                res.write('<p>File name\: ' + results[i].fn + '</p><br>')
+                res.write('<img src="data:image/jpeg;base64,')
+                res.write(results[i].image.toString('base64') + '"/>')
+
+            }
+
+            res.end("<p>This code accesses images stored by the script named populate_images_demo_mongodb_v3.js " +
+                "and the method of storing the images appears to work. It is based on using the Node api readFileSync. " +
+                "Query logic in Article3.js returns images to the Article.findAll function sorted in ascending " +
+                "filename order.</p></body></html>")
+
+            // Send the web page to the browser.
+
+        }
+    });
+});
+
+
+// Display all the images in the 'd650' collection.
+
+app.get("/d650", function (req, res) {
+
+    //Step 1: read in the css that applies
+
+    fs.readFile(__dirname + '/static/mdb3.css', function (err, ourcss) {
+        if (err) console.log(err);
+
+        ourcss2 = ourcss
+    });
+    Article.find650(function (error, results) {
+        if (error) {
+            res.status(400).json('A database related error has happened. Perhaps the server is down?' + '\n' + error);
+
+        } else if (!results) {
+            res.status(404).json('The record set was not found. Very strange. Perhaps the server is down?' + '\n');
+        } else {
+            /* Write the headers, document head, and required tags including the h1 */
+
+            res.writeHead(200, {'Content-Type': 'text/html'})
+            res.write('<!DOCTYPE html><html><head><title>MongoDB Demo Images</title>')
+            res.write('<style media="screen" type="text/css">' + ourcss2 + '</style></head>')
+            res.write('<body><h1>MongoDB Demo Images</h1>')
+
+            /* Process the rest of the page using a for loop to place 1 through n documents of
+             * database content in the remainder of the web page.
+             */
+            for (var i = 0; i < results.length; i++) {
+                res.write('<p>File name\: ' + results[i].fn + '</p><br>')
+                res.write('<img src="data:image/jpeg;base64,')
+                res.write(results[i].image.toString('base64') + '"/>')
+
+            }
+
+            res.end("<p>This code accesses images stored by the script named populate_images_demo_mongodb_v3.js " +
+                "and the method of storing the images appears to work. It is based on using the Node api readFileSync. " +
+                "Query logic in Article3.js returns images to the Article.findAll function sorted in ascending " +
+                "filename order.</p></body></html>")
+
+            // Send the web page to the browser.
+
+        }
+    });
+});
+
+// Display all the images in the 'd650' collection.
+
+app.get("/d550", function (req, res) {
+
+    //Step 1: read in the css that applies
+
+    fs.readFile(__dirname + '/static/mdb3.css', function (err, ourcss) {
+        if (err) console.log(err);
+
+        ourcss2 = ourcss
+    });
+    Article.find550(function (error, results) {
+        if (error) {
+            res.status(400).json('A database related error has happened. Perhaps the server is down?' + '\n' + error);
+
+        } else if (!results) {
+            res.status(404).json('The record set was not found. Very strange. Perhaps the server is down?' + '\n');
+        } else {
+            /* Write the headers, document head, and required tags including the h1 */
+
+            res.writeHead(200, {'Content-Type': 'text/html'})
+            res.write('<!DOCTYPE html><html><head><title>MongoDB Demo Images</title>')
+            res.write('<style media="screen" type="text/css">' + ourcss2 + '</style></head>')
+            res.write('<body><h1>MongoDB Demo Images</h1>')
+
+            /* Process the rest of the page using a for loop to place 1 through n documents of
+             * database content in the remainder of the web page.
+             */
+            for (var i = 0; i < results.length; i++) {
+                res.write('<p>File name\: ' + results[i].fn + '</p><br>')
+                res.write('<img src="data:image/jpeg;base64,')
+                res.write(results[i].image.toString('base64') + '"/>')
+
+            }
+
+            res.end("<p>This code accesses images stored by the script named populate_images_demo_mongodb_v3.js " +
+                "and the method of storing the images appears to work. It is based on using the Node api readFileSync. " +
+                "Query logic in Article3.js returns images to the Article.findAll function sorted in ascending " +
+                "filename order.</p></body></html>")
+
+            // Send the web page to the browser.
+
+        }
+    });
+});
+
+
 // Display just one image. See if we can resize the image on the fly using the 'gm' utility.
 
 
