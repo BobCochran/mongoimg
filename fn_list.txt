@@ -16,3 +16,6 @@ IMG_1786_resized_750	10130	1	street	0130street
 IMG_1842	10130	1	street	0130street
 IMG_1843	10130	1	street	0130street
 IMG_1866	10130	1	street	0130street
+IMG_1868	10130	1	street	0130street
+IMG_1869	10130	1	street	0130street
+IMG_1878	10130	1	street	0130street
