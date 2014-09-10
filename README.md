@@ -79,12 +79,15 @@ You can easily change the target database collection in the script.
 Example scripts access different MongoDB databases and collections. You can easily edit them to
 suit names that you prefer.
 
-| Script Name(s) | Database Name | Collections | Fields |
-| :--------------| :------------:| :----------:| :-----:|
-| app.js | roberts | articles | _id, idt, img, author, content, im_typ, im_len, im_name |
-| app2.js | images | demoimages | _id, fn, image |
-| app3.js | images | demoimages | _id, fn, image |
-| app3.js | images | d750 | _id, fn, image |
+| Script Name(s) | Database Name | Data Access Object Script Name | Collections | Fields |
+| :--------------| :------------:| :-----------------------------:| :----------:| :-----:|
+| app.js | roberts | Article.js | articles | _id, idt, img, author, content, im_typ, im_len, im_name |
+| app2.js | images | Article2.js | demoimages | _id, fn, image |
+| app3.js | images | Article3.js | demoimages | _id, fn, image |
+| app3.js | images | Article3.js | d750 | _id, fn, image |
+| app3.js | images | Article3.js | d650 | _id, fn, image |
+| app3.js | images | Article3.js | d550 | _id, fn, image |
+| app3.js | images | Article3.js | d650 | _id, fn, image |
 
 The `_id` fields are all standard MongoDB generated `_id` fields. In the articles collection, the `img`
 field contains the actual image. In the demoimages collection, the `image` field contains the
