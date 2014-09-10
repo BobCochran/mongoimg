@@ -151,7 +151,7 @@ exports.findById = function (filename, callback) {
                                 return callback(err, null)
                             }
                             else {
-                                console.log('Image queried from deomoimages collection: ' + docs[0].fn)
+                                console.log('Image queried from demoimages collection: ' + docs[0].fn)
                                 console.log('Image queried from d750 collection: ' + docs2[0].fn)
                                 console.log('Going to the callback now! ')
                                 callback(null, docs, docs2)
