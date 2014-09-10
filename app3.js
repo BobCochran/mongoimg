@@ -152,7 +152,7 @@ app.get("/d750", function (req, res) {
 
             res.end("<p>This code accesses images stored by the script named populate_images_demo_mongodb_v3.js " +
                 "and the method of storing the images appears to work. It is based on using the Node api readFileSync. " +
-                "Query logic in Article3.js returns images to the Article.findAll function sorted in ascending " +
+                "Query logic in Article3.js returns images from the Article.find750 function sorted in ascending " +
                 "filename order.</p></body></html>")
 
             // Send the web page to the browser.
@@ -199,7 +199,7 @@ app.get("/d650", function (req, res) {
 
             res.end("<p>This code accesses images stored by the script named populate_images_demo_mongodb_v3.js " +
                 "and the method of storing the images appears to work. It is based on using the Node api readFileSync. " +
-                "Query logic in Article3.js returns images to the Article.findAll function sorted in ascending " +
+                "Query logic in Article3.js returns images from the Article.find650 function sorted in ascending " +
                 "filename order.</p></body></html>")
 
             // Send the web page to the browser.
@@ -245,7 +245,7 @@ app.get("/d550", function (req, res) {
 
             res.end("<p>This code accesses images stored by the script named populate_images_demo_mongodb_v3.js " +
                 "and the method of storing the images appears to work. It is based on using the Node api readFileSync. " +
-                "Query logic in Article3.js returns images to the Article.findAll function sorted in ascending " +
+                "Query logic in Article3.js returns images from the Article.find550 function sorted in ascending " +
                 "filename order.</p></body></html>")
 
             // Send the web page to the browser.
@@ -299,7 +299,7 @@ app.get("/articles/:id", function (req, res) {
 
             res.end("<p>This code accesses images stored by the script named populate_images_demo_mongodb_v3.js " +
                 "and the method of storing the images appears to work. It is based on using the Node api readFileSync. " +
-                "Query logic in Article3.js returns images to the Article.findAll function sorted in ascending " +
+                "Query logic in Article3.js returns images from the Article.findById function sorted in ascending " +
                 "filename order.</p></body></html>")
 
             // Send the web page to the browser.
