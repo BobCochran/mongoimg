@@ -63,8 +63,11 @@ variables to hold the content of the binary stream. However, ReadableStream obje
 still appear to be broken in this script.
 
 The script `populate_images_demo_mongodb_v3.js` dumps Node Buffers and ReadableStreams in favor of a simple but
-synchronous readFileSync actions. The API documentation for readFileSync indicates that if you don't specify
-any file encoding options, it returns a buffer by default.
+synchronous readFileSync action. The API documentation for readFileSync indicates that if you don't specify
+any file encoding options, it returns a buffer by default. This script now contains on-the-fly image resizing logic
+which calls the "gm" utility. It will take a full size image, and resize it into three separate image resolutions:
+750 pix, 650px, and 550 px. This means a total of 4 collections are created or updated, containing identical images
+in 4 different resolutions.
 
 All the above 3 scripts try to find the fn_list.txt file by extracting the user's $HOME environment variable from
 the environment. It saves this information to a variable named my_user.  This is done with process.env['HOME'].
@@ -87,7 +90,6 @@ suit names that you prefer.
 | app3.js | images | Article3.js | d750 | _id, fn, image |
 | app3.js | images | Article3.js | d650 | _id, fn, image |
 | app3.js | images | Article3.js | d550 | _id, fn, image |
-| app3.js | images | Article3.js | d650 | _id, fn, image |
 
 The `_id` fields are all standard MongoDB generated `_id` fields. In the articles collection, the `img`
 field contains the actual image. In the demoimages collection, the `image` field contains the
