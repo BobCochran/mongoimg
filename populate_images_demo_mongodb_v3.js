@@ -419,7 +419,7 @@ function do_db_updates() {
                 setTimeout(function d750_tmout() {
                     console.log('\nSuccessfully updated d750 collection. Now doing d650 collection...')
 
-                },15000)
+                },10000)
 
             }
 
@@ -446,7 +446,7 @@ function do_db_updates() {
                 setTimeout(function d650_tmout() {
                     console.log('\nSuccessfully updated d650 collection. Now doing d550 collection...')
 
-                },15000)
+                },10000)
 
             }
 
@@ -469,11 +469,11 @@ function do_db_updates() {
                         throw err
                     }
                 })
-                /* wait 30 seconds and hope write operations are done */
-                setTimeout(function () {
-                    console.log('\nSuccessfully updated d550 collection. Now closing the database.')
+                /* wait 35 seconds and hope write operations are done */
+                setTimeout(function d550_tmout() {
+                    console.log('\nSuccessfully updated d550 collection.')
                     db.close()
-                },15000)
+                },35000)
 
             }
 
