@@ -1,6 +1,6 @@
 /*************************************************************************
  * NODE.JS SCRIPT TO POPULATE A MONGODB 'demoimages' collection of images*
- * 2014-08-31                                                            *
+ * 2014-09-06                                                            *
  *                                                                       *
  * To start the script, use this command line in a shell window:         *
  * node populate_images_demo_mongodb_v1.js startline endline             *
@@ -93,7 +93,8 @@ var endLn = 0           // the ending line for this processing "pass"
 var actLines = 0        // the actual number of text lines that readLines has found
 var webRows = 0         // count of web page row numbers, starting from 1
 var array_lines = 0     // the number of array iterations we need
-//var the_image = ""      // content of image read by fs.ReadStream
+var gm = require('gm')  // enable image resizing. Requires "ImageMagick" option.
+
 var my_user = process.env['HOME']  //Mac OS X: the user's Home directory
 
 var MongoClient = require('mongodb').MongoClient
@@ -134,14 +135,27 @@ console.log('Number of iterations in the array will be ' + array_lines + '\n')
 
 /* Set up an [lines being processed] x 3 array */
 
-var im_array = []             // multidimensional array of image names, file names, photographer names
+var im_array = []             // multidimensional array of image names, file names, image content
+var im_array_750 = []         // same as above but for images resized to 750 px
+var im_array_650 = []         // same as above but for images resized to 650 px
+var im_array_550 = []         // same as above but for images resized to 550 px
+
 for(i = 0; i < array_lines; i++) {
     im_array[i] = [];
+    im_array_750[i] = []
+    im_array_650[i] = []
+    im_array_550[i] = []
     for (var y = 0; y < 3; y++) {
         im_array[i][y] = ""
+        im_array_750[i][y] = ""
+        im_array_650[i][y] = ""
+        im_array_550[i][y] = ""
     }
 }
 
+/* ReadableStream objects for text files do seem to work. ReadableStream objects
+ * for binary files such as images are a ton of trouble.
+ */
 var input = fs.createReadStream(my_user + '/Downloads/mongoimg/fn_list.txt');
 
 readLines(input, func);
@@ -197,10 +211,16 @@ function readLines(input, func) {
           }
           debugger
           im_array[j1][j2] = fn1              // save the filename string without an extension
+          im_array_550[j1][j2] = fn1          // for all defined arrays
+          im_array_650[j1][j2] = fn1
+          im_array_750[j1][j2] = fn1
 
           fn1 = fn1 + '.JPG'                      // append the .jpg extension
           j2++                                    // bump to next element in j1
           im_array[j1][j2] = fn1                  // push this onto the array
+          im_array_550[j1][j2] = fn1              // for all defined arrays
+          im_array_650[j1][j2] = fn1
+          im_array_750[j1][j2] = fn1
           j2 = 0                                  // reset j2
           j1++                                    // set up the next array
           debugger
@@ -231,7 +251,7 @@ function readLines(input, func) {
  */
 function get_credits() {
 
-    setTimeout(function () {
+    setTimeout(function credits_tmout() {
         process.stdout.write('\nProcessing files...\n')
         for(var pj = 0; pj < im_array.length; pj++) {
             process.stdout.write(im_array[pj][0] + '... ')
@@ -245,8 +265,20 @@ function get_credits() {
 }
 /*
  This function accepts an input file name in the format filename.jpg from function
- get_credits() and attempts to create a readstream of the file. Then it attempts to
- parse out the photographer's name and save that to im_array[pj][2].
+ get_credits() and attempts to create a Buffer of the file. Then it attempts to
+ save that Buffer to im_array[pj][2].
+
+ The buffer of this image is then resized to 3 different resolutions:
+     750px
+     650px
+     550px
+ Using the 'gm' utility for resizing. The resized images are written by the utility
+ to a new buffer. These buffers are then saved to the array which was created for that
+ image size, e.g. if we resize the image to 750px, we save the resized buffer to
+ im_array_750[idx][2]. In this way we will have an entire list of images which have
+ been resized to 750px. We invoke gm twice more for a total of 3 times, to resize images
+ to the desired resolutions.
+
  */
 function get_photo_info(fname,idx) {
 
@@ -257,8 +289,55 @@ function get_photo_info(fname,idx) {
 
     im_array[idx][2] = stream
 
+    /* Resize the image to 750px. */
 
+    gm(stream, my_user + '/Downloads/mongoimg/mongodb_presentation_images/' + fname)
+        .options({imageMagick: true})
+        .resize(750)
+        .toBuffer('JPG', function (err1, buffer1) {
+            if (err1) {
+                console.log(err1)
+            }
+            if (!err1) {
+                console.log('\nThe image ' + fname + ' was resized to 750px successfully.')
+                im_array_750[idx][2] = buffer1
+            }
+        }
+    )
+
+     /* Let us resize stream to 650 inside the callback. */
+
+      gm(stream, my_user + '/Downloads/mongoimg/mongodb_presentation_images/' + fname)
+          .options({imageMagick: true})
+          .resize(650)
+          .toBuffer('JPG', function (err2, buffer2) {
+              if (err2) {
+                  console.log(err2)
+              }
+              if (!err2) {
+                  console.log('The image ' + fname + ' was resized to 650px successfully.')
+                  im_array_650[idx][2] = buffer2
+              }
+         }
+      )
+
+      /* Let us resize stream to 550 px inside this callback. */
+
+      gm(stream, my_user + '/Downloads/mongoimg/mongodb_presentation_images/' + fname)
+          .options({imageMagick: true})
+          .resize(550)
+          .toBuffer('JPG', function (err3, buffer3) {
+              if (err3) {
+                  console.log(err3)
+              }
+              if (!err3) {
+                  console.log('The image ' + fname + ' was resized to 550px successfully.')
+                  im_array_550[idx][2] = buffer3
+              }
+          }
+      )
 }
+
 
 function func(data) {
   console.log('Line: ' + totalLines + ' ' + data);
@@ -271,16 +350,17 @@ function do_array_print() {
     }
 }
 function do_db_updates() {
-    /* At this point, we now have an array all ready to insert the collection 'demoimages' in the
+    /* At this point, we now have an array all ready to insert data into the collection 'demoimages' in the
      * images database. We will use db.demoimages.insert() to add a new document to the demoimages
      * collection. For each document, there will be a key "fn" with the value of the image filename
      * and another key "image" containing the base64 image.
      */
 
     /* wait 35 seconds and hope read operations are done */
-    setTimeout(function () {
+    setTimeout(function db_updates_tmout() {
         console.log("\nUpdating database collection.");
         console.log("\nConnecting to database server on " + host + ":" + port +"\n");
+
         /* Connect to the 'images' database to test out the logic. Turn on journaling. */
 
         MongoClient.connect(format("mongodb://%s:%s/images?journal=true", host, port), function(err, db) {
@@ -309,11 +389,94 @@ function do_db_updates() {
                     }
                 })
                 /* wait 30 seconds and hope write operations are done */
-                setTimeout(function () {
-                    db.close()
+                setTimeout(function demoimg_tmout() {
+                    console.log('\nSuccessfully updated demoimages collection. Now doing d750 collection...')
+
                 },30000)
 
             }
+
+            var collection2 = db.collection('d750')
+
+            for (var i = 0; i < im_array_750.length; i++) {
+                /* collection.insert  */
+                var img2 = new MongoBin(im_array_750[i][2])
+
+
+                collection2.insert([
+                    { "fn": im_array_750[i][0],
+                        "image": img2
+                    }
+                ], { w: 1 }, function (err, result) {
+                    if (err && err.name === "MongoError" && err.code === 11000) {
+                        console.log(err)
+                        return
+                    } else if (err) {
+                        throw err
+                    }
+                })
+                /* wait 30 seconds and hope write operations are done */
+                setTimeout(function d750_tmout() {
+                    console.log('\nSuccessfully updated d750 collection. Now doing d650 collection...')
+
+                },15000)
+
+            }
+
+            var collection3 = db.collection('d650')
+
+            for (var i = 0; i < im_array_650.length; i++) {
+                /* collection.insert  */
+                var img3 = new MongoBin(im_array_650[i][2])
+
+
+                collection3.insert([
+                    { "fn": im_array_650[i][0],
+                        "image": img3
+                    }
+                ], { w: 1 }, function (err, result) {
+                    if (err && err.name === "MongoError" && err.code === 11000) {
+                        console.log(err)
+                        return
+                    } else if (err) {
+                        throw err
+                    }
+                })
+                /* wait 30 seconds and hope write operations are done */
+                setTimeout(function d650_tmout() {
+                    console.log('\nSuccessfully updated d650 collection. Now doing d550 collection...')
+
+                },15000)
+
+            }
+
+            var collection4 = db.collection('d550')
+
+            for (var i = 0; i < im_array_550.length; i++) {
+                /* collection.insert  */
+                var img4 = new MongoBin(im_array_550[i][2])
+
+
+                collection4.insert([
+                    { "fn": im_array_550[i][0],
+                        "image": img4
+                    }
+                ], { w: 1 }, function (err, result) {
+                    if (err && err.name === "MongoError" && err.code === 11000) {
+                        console.log(err)
+                        return
+                    } else if (err) {
+                        throw err
+                    }
+                })
+                /* wait 30 seconds and hope write operations are done */
+                setTimeout(function () {
+                    console.log('\nSuccessfully updated d550 collection. Now closing the database.')
+                    db.close()
+                },15000)
+
+            }
+
         })
     },35000)
 
