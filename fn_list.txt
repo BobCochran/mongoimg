@@ -19,3 +19,5 @@ IMG_1866	10130	1	street	0130street
 IMG_1868	10130	1	street	0130street
 IMG_1869	10130	1	street	0130street
 IMG_1878	10130	1	street	0130street
+enviro_bottle_glass	10130	1	store	0131store
+
