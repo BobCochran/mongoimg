@@ -136,9 +136,11 @@ app.get("/d750", function (req, res) {
             /* Write the headers, document head, and required tags including the h1 */
 
             res.writeHead(200, {'Content-Type': 'text/html'})
-            res.write('<!DOCTYPE html><html><head><title>MongoDB Demo Images</title>')
+            res.write('<!DOCTYPE html><html><head><title>MongoDB Demo Images 750px</title>')
             res.write('<style media="screen" type="text/css">' + ourcss2 + '</style></head>')
-            res.write('<body><h1>MongoDB Demo Images</h1>')
+            res.write('<body><h1>MongoDB Demo Images 750px Resolution</h1>')
+            res.write("<p>The images shown on this page are in 750 pixel resolution and come from the " +
+                "d750 collection of the images database.</p>")
 
             /* Process the rest of the page using a for loop to place 1 through n documents of
              * database content in the remainder of the web page.
@@ -183,9 +185,11 @@ app.get("/d650", function (req, res) {
             /* Write the headers, document head, and required tags including the h1 */
 
             res.writeHead(200, {'Content-Type': 'text/html'})
-            res.write('<!DOCTYPE html><html><head><title>MongoDB Demo Images</title>')
+            res.write('<!DOCTYPE html><html><head><title>MongoDB Demo Images 650px</title>')
             res.write('<style media="screen" type="text/css">' + ourcss2 + '</style></head>')
-            res.write('<body><h1>MongoDB Demo Images</h1>')
+            res.write('<body><h1>MongoDB Demo Images 650px Resolution</h1>')
+            res.write("<p>The images shown on this page are in 650 pixel resolution and come from the " +
+                "d650 collection of the images database.</p>")
 
             /* Process the rest of the page using a for loop to place 1 through n documents of
              * database content in the remainder of the web page.
@@ -229,9 +233,11 @@ app.get("/d550", function (req, res) {
             /* Write the headers, document head, and required tags including the h1 */
 
             res.writeHead(200, {'Content-Type': 'text/html'})
-            res.write('<!DOCTYPE html><html><head><title>MongoDB Demo Images</title>')
+            res.write('<!DOCTYPE html><html><head><title>MongoDB Demo Images 550px</title>')
             res.write('<style media="screen" type="text/css">' + ourcss2 + '</style></head>')
-            res.write('<body><h1>MongoDB Demo Images</h1>')
+            res.write('<body><h1>MongoDB Demo Images 550px Resolution</h1>')
+            res.write("<p>The images shown on this page are in 550 pixel resolution and come from the " +
+                "d550 collection of the images database.</p>")
 
             /* Process the rest of the page using a for loop to place 1 through n documents of
              * database content in the remainder of the web page.
